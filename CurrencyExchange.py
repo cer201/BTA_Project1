@@ -14,6 +14,7 @@ class CurrencyExchange:
         # from hist_dict is added to hist.json
     
         # self.file_manager 
+        # New Comment
 
     def get_exchange_rates(self):
         pass
