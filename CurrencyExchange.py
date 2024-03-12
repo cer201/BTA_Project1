@@ -1,38 +1,46 @@
+import requests
+exchange_rate_api_url = 'https://open.er-api.com/v6/latest'
+valid_currencies = ['USD', 'EUR', 'GBP', 'JPY', 'AUD']
+
 from FileManager import FileManager
 from HistoryMessages import HistoryMessages
 
 class CurrencyExchange:
-    def __init__(self, balance = 0):
+    def __init__(self, balance=0):
         self.file_manager = FileManager()
         self.hist_file_path = "hist.json"
-        
 
     def write_to_history(self, hist_dict):
-        pass 
-        # TODO:
-        # Comment and refine the code below so that the dictionary 
-        # from hist_dict is added to hist.json
-    
-        # self.file_manager 
-        # New Comment
+        current_hist_data = self.file_manager.read_json(self.hist_file_path)
+        current_hist_data.append(hist_dict)
+        self.file_manager.write_json(self.hist_file_path, current_hist_data)
 
     def get_exchange_rates(self):
-        pass
-        # Implement a process that sends a get request to the link 
-        # and returns the resulting dictionary.
-    
-    def exchange_currency(self, currency_from, currency_to, amount):
-        pass
-
-        # implement a process that transfers the specified amount from currency `currency_from` 
-        # to currency `currency_to` and, if positive, returns the amount in the new currency
-
-        # with a positive outcome, the record of history looks like this 
-        # history_message = HistoryMessages.exchange("success", amount, converted_amount, currency_from, currency_to)
-        # self.write_to_history(history_message)
+        try:
+            response = requests.get(exchange_rate_api_url)
+            response.raise_for_status()
+            return response.json().get('rates')  
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching exchange rates: {e}")
+            return None
         
-        # in case of a negative outcome, the history entry looks like this
-        # - if currency_from or currency_to is specified incorrectly
-        # - if amount is not a number
-        # history_message = HistoryMessages.exchange("failure", amount, None, currency_from, currency_to)
-        # self.write_to_history(history_message)
+    def exchange_currency(self, currency_from, currency_to, amount):
+        exchange_rates = self.get_exchange_rates()
+        if exchange_rates:
+            if not isinstance(amount, (int, float)) or currency_from not in valid_currencies or currency_to not in valid_currencies:
+                history_message = HistoryMessages.exchange("failure", amount, None, currency_from, currency_to)
+                self.write_to_history(history_message)
+                return None
+
+            converted_amount = amount * exchange_rates[currency_to] / exchange_rates[currency_from]
+
+            if converted_amount > 0:
+                history_message = HistoryMessages.exchange("success", amount, converted_amount, currency_from, currency_to)
+                self.write_to_history(history_message)
+                return converted_amount
+            else:
+                history_message = HistoryMessages.exchange("failure", amount, None, currency_from, currency_to)
+                self.write_to_history(history_message)
+                return None
+        else:
+            return None
