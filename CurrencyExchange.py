@@ -1,4 +1,5 @@
 import requests
+
 exchange_rate_api_url = 'https://open.er-api.com/v6/latest'
 valid_currencies = ['USD', 'EUR', 'GBP', 'JPY', 'AUD']
 
