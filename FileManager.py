@@ -20,14 +20,11 @@ class FileManager:
             print(f"Error decoding JSON from file {json_file_path}: {e}")
             return []
         
-    def write_json(self, list_of_dicts, json_file_path):
+    def write_json(self, data, json_file_path):
         with open(json_file_path, 'w') as file:
-            json.dump(list_of_dicts, file)
+            json.dump(data, file)
     
     def add_to_json(self, data, json_file_path):
         current_data = self.read_json(json_file_path)
         current_data.append(data)
         self.write_json(current_data, json_file_path)
-
-
-            
