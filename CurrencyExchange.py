@@ -13,7 +13,7 @@ class CurrencyExchange:
     def write_to_history(self, hist_dict):
         current_hist_data = self.file_manager.read_json(self.hist_file_path)
         current_hist_data.append(hist_dict)
-        self.file_manager.write_json(self.hist_file_path, current_hist_data)
+        self.file_manager.write_json(current_hist_data, self.hist_file_path)
 
     def get_exchange_rates(self):
         try:
