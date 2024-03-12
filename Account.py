@@ -13,9 +13,9 @@ class Account:
         current_hist_data = self.file_manager.read_json(self.hist_file_path)
         current_hist_data.append(hist_dict)
         self.file_manager.write_json(self.hist_file_path, current_hist_data)
-
+    
     def deposit(self, amount):
-        pass
+        amount = int(amount)
         if not isinstance(amount, int) or amount <= 0:
             history_message = HistoryMessages.deposit("failure", amount, self.balance)
         else:
