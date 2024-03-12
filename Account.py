@@ -22,7 +22,7 @@ class Account:
             self.balance += amount
             history_message = HistoryMessages.deposit("success", amount, self.balance)
 
-        self.write_to_history(history_message
+        self.write_to_history(history_message)
 
     def debit(self, amount):
         pass
