@@ -10,8 +10,15 @@ class FileManager:
             file.write(data)
 
     def read_json(self, json_file_path):
-        with open(json_file_path, 'r') as file:
-            return json.load(file)
+        try:
+            with open(json_file_path, 'r') as file:
+                return json.load(file)
+        except FileNotFoundError:
+            print(f"File {json_file_path} not found.")
+            return []
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON from file {json_file_path}: {e}")
+            return []
         
     def write_json(self, list_of_dicts, json_file_path):
         with open(json_file_path, 'w') as file:
