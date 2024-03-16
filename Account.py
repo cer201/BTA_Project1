@@ -24,12 +24,12 @@ class Account:
         self.write_to_history(history_message)
 
     def debit(self, amount):
-        pass
         if not isinstance(amount, int) or amount <= 0 or amount > self.balance:
             history_message = HistoryMessages.debit("failure", amount, self.balance)
         else:
             self.balance -= amount
             history_message = HistoryMessages.debit("success", amount, self.balance)
+        self.write_to_history(history_message)
 
     def get_balance(self):
         return self.balance
