@@ -18,7 +18,7 @@ def main():
             deposit_amount = input("Enter deposit amount: ")
             user_account.deposit(deposit_amount)
         elif choice == "3":
-            withdraw_amount = input("Enter withdrawal amount: ") 
+            withdraw_amount = int(input("Enter withdrawal amount: "))  # Convert input to int
             user_account.debit(withdraw_amount)
         elif choice == "4":
             history = user_account.get_history()
