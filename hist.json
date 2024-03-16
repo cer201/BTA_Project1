@@ -1,1 +1,1 @@
-[{"operation_type": "deposit", "status": "failure", "amount_of_deposit": "24", "total_balance": 0}]
+[{"operation_type": "deposit", "status": "failure", "amount_of_deposit": "24", "total_balance": 0}, {"operation_type": "deposit", "status": "success", "amount_of_deposit": 30, "total_balance": 30}, {"operation_type": "exchange", "status": "failure", "pre_exchange_amount": "30", "exchange_amount": null, "currency_from": "EUR", "currency_to": "USD"}, {"operation_type": "deposit", "status": "success", "amount_of_deposit": 20, "total_balance": 20}]
